@@ -9,7 +9,7 @@ app.use(express.json());
 app.post("/api/predict", async (req, res) => {
   try {
     const response = await axios.post(
-      "http://127.0.0.1:8000/predict",
+      `${process.env.ML_API_URL}/predict`,
       req.body
     );
     res.json(response.data);

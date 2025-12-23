@@ -2,6 +2,8 @@ import { useState } from "react";
 import { formSections } from "./config/formFields";
 import "./App.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const [formData, setFormData] = useState({});
   const [result, setResult] = useState(null);
@@ -79,7 +81,7 @@ function App() {
       if (data.season === "winter") payload.season_winter = 1;
     }
 
-    // area_type -> one-hot (model doesn't include 'commercial')
+    // area_type -> one-hot
     if (data.area_type) {
       if (data.area_type === "industrial") payload.area_type_industrial = 1;
       if (data.area_type === "residential") payload.area_type_residential = 1;
@@ -98,7 +100,7 @@ function App() {
       const payload = buildPayload(formData);
       console.log("Predict payload:", payload);
 
-      const res = await fetch("http://localhost:5000/api/predict", {
+      const res = await fetch(`${API_URL}/api/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
